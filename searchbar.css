@@ -1,0 +1,71 @@
+.searchbar {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+    background: #fff;
+    padding: 0 2px;
+    overflow: hidden; /* hide filters if do not fit */
+}
+
+.searchbar table {
+    width: 100%;
+}
+
+.searchbar table,
+.searchbar tr,
+.searchbar td
+{
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.searchbar .input {
+    width: 99%;
+}
+
+.searchbar .input * {
+    border: 0;
+    background: #fff;
+    width: 100%;
+    box-shadow: none;
+}
+
+.searchbar .filters {
+    width: 0;
+    white-space: nowrap;
+}
+
+.searchbar a.more {
+    margin: 0 5px;
+    display: inline-block;
+    color: #6b6f6b;
+    text-decoration: none;
+}
+
+.searchbar .filters span {
+    margin: 0 3px;
+    padding: 1px 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    color: #0a0a0a;
+}
+
+.searchbar .filters span x:before {
+    content: "x";
+    cursor: pointer;
+    font-weight: bold;
+    color: #ccc;
+}
+
+/** Add to filters container to have a shadow */
+.searchbar_filters {
+    -webkit-box-shadow: 2px 2px 2px 0px #ccc;
+    -moz-box-shadow: 2px 2px 2px 0px #ccc;
+    box-shadow: 2px 2px 2px 0px #ccc;
+    border: 1px solid #ccc;
+    border-top: 0;
+    background: #fff;
+    color: #0a0a0a;
+    position: absolute;
+    z-index: 1;
+}
