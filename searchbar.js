@@ -5,7 +5,10 @@ jQuery(function ($) {
         // Default options
         options: {
             filters_container: '',  // must be specified
-            filters_link: ''  // must be specified
+            filters_link: '',  // must be specified
+            filter_template: '<span data-for="{{ id }}" title="{{ title }}"><x></x> {{ name }}: {{ value }}</span>',
+            filter_selector: 'span', // css selector for filter item (root node in filter_template)
+            close_selector: 'x' // css selector for "x" button in each filter (from filter_template)
         },
 
         _create: function () {
@@ -66,7 +69,7 @@ jQuery(function ($) {
             });
 
             // Handle clicks on "x"
-            filters_list.on("click", "x", function(e) {
+            filters_list.on("click", self.options.close_selector, function(e) {
                 var span = $(this).parent(),
                     field = filters.find('#'+span.data('for'));
                 field.val('');
@@ -83,7 +86,7 @@ jQuery(function ($) {
             });
 
             // Handle clicks on filter tag
-            filters_list.on("click", "span", function(e) {
+            filters_list.on("click", self.options.filter_selector, function(e) {
                 var span = $(this),
                     field = filters.find('#'+span.data('for'));
                 filters.show();
@@ -130,8 +133,10 @@ jQuery(function ($) {
                 if (v.length > 15) {
                     v = $.trim(v.substring(0, 12))+'...';
                 }
-
-                return '<span data-for="' + id + '" title="'+title+'"><x></x> ' + name + ': ' + v + '</span>';
+                return self._applyTemplate(
+                    self.options.filter_template,
+                    { "id": id, "title": title, "name": name, "value": v }
+                )
             }).get().join('');
             container.html(html);
         },
@@ -144,6 +149,21 @@ jQuery(function ($) {
          */
         _isDropdown: function (field) {
             return (field.prop("tagName") == "SELECT")
+        },
+
+        /**
+         * Replace {{ key }} with values from "params"
+         * @param html - {String}
+         * @param params - {Object}
+         * @private
+         * @returns {String}
+         */
+        _applyTemplate: function(html, params)
+        {
+            $.each(params, function (key, value) {
+                html = html.replace("{{ " + key + " }}", value)
+            });
+            return html;
         }
     });
 });
