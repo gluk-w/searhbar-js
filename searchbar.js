@@ -73,6 +73,7 @@ jQuery(function ($) {
                 var span = $(this).parent(),
                     field = filters.find('#'+span.data('for'));
                 field.val('');
+                field.find('option:selected').prop('selected', false);
 
                 if (self._isDropdown(field))
                 {
@@ -122,7 +123,8 @@ jQuery(function ($) {
 
                 if (self._isDropdown(el))
                 {
-                    v = el.find("option:selected").text();
+                    v = $.map(el.find("option:selected"), function(el) { return $(el).text() })
+                        .join(", ");
                 }
 
                 var id = $(this).attr('id'),
