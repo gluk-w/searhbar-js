@@ -43,23 +43,9 @@ jQuery(function ($) {
                 filters_list = this.element.find('filters'),
                 filters_link = $(this.options.filters_link);
 
-            // Hide when focus is lost
-            $(document).mouseup(function (e) {
-                var $target = $(e.target);
-                if (!filters.is(e.target) // if the target of the click isn't the container...
-                    && filters.has(e.target).length === 0 // ... nor a descendant of the container
-                    && !$target.hasClass('select2-results__option') // item selection should be ignored for select2
-                    && !$target.hasClass('select2-search__field') // search field in select2
-                    && !$target.is(filters_link) // if the target of the click isn't "Advanced" link
-                )
-                {
-                    filters.hide();
-                }
-            });
-
             // Handle clicks on "Advanced" link
             filters_link.click(function(e) {
-                filters.toggle();
+                self._changeFiltersPopupState("toggle");
                 e.preventDefault();
                 return false
             });
@@ -90,7 +76,7 @@ jQuery(function ($) {
             filters_list.on("click", self.options.filter_selector, function(e) {
                 var span = $(this),
                     field = filters.find('#'+span.data('for'));
-                filters.show();
+                self._changeFiltersPopupState("show");
 
                 if (self._isDropdown(field))
                 {
@@ -166,6 +152,57 @@ jQuery(function ($) {
                 html = html.replace("{{ " + key + " }}", value)
             });
             return html;
+        },
+
+        /**
+         * Handler for Filters popup presence change
+         * @param action - "show", "hide" or "toggle"
+         */
+        _changeFiltersPopupState: function (action) {
+            if (action === "toggle") {
+                action = this.filters_container.is(":visible")  ?  "hide"  :  "show";
+            }
+
+            if (action === "show") {
+                this.filters_container.show();
+                this._startOutsideClicksHandler()
+            }
+            else {
+                this.filters_container.hide();
+                this._stopOutsideClicksHandler();
+            }
+        },
+
+        /**
+         * Add event handler to document to:
+         * - check if event target is outside of container
+         * - hide filters popup
+         */
+        _startOutsideClicksHandler: function () {
+            var self = this,
+                filters = this.filters_container,
+                filters_link = $(this.options.filters_link);
+
+            // Hide when focus is lost
+            $(document).on("mouseup.searchbar", function (e) {
+                var $target = $(e.target);
+                if (!filters.is(e.target) // if the target of the click isn't the container...
+                    && filters.has(e.target).length === 0 // ... nor a descendant of the container
+                    && !$target.hasClass('select2-results__option') // item selection should be ignored for select2
+                    && !$target.parent().hasClass('select2-results__option') //
+                    && !$target.hasClass('select2-search__field') // search field in select2
+                    && !$target.is(filters_link) // if the target of the click isn't "Advanced" link
+                ) {
+                    self._changeFiltersPopupState("hide");
+                }
+            });
+        },
+
+        /**
+         *
+         */
+        _stopOutsideClicksHandler: function () {
+            $(document).off("mouseup.searchbar");
         }
     });
 });
