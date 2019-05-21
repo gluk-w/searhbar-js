@@ -192,6 +192,7 @@ jQuery(function ($) {
                     && !$target.parent().hasClass('select2-results__option') //
                     && !$target.hasClass('select2-search__field') // search field in select2
                     && !$target.is(filters_link) // if the target of the click isn't "Advanced" link
+                    && !$target.parent().is(filters_link) //
                 ) {
                     self._changeFiltersPopupState("hide");
                 }
