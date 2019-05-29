@@ -101,10 +101,9 @@ jQuery(function ($) {
             var html = filters.find("input, select").map(function() {
                 var el = $(this),
                     v = $(this).val();
-                if (!v)
+                if (!v || (el.attr("type") === "checkbox" && !el.prop("checked")))
                 {
                     return;
-
                 }
 
                 if (self._isDropdown(el))
