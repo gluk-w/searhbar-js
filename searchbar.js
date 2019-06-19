@@ -187,8 +187,8 @@ jQuery(function ($) {
                 var $target = $(e.target);
                 if (!filters.is(e.target) // if the target of the click isn't the container...
                     && filters.has(e.target).length === 0 // ... nor a descendant of the container
-                    && !$target.hasClass('select2-results__option') // item selection should be ignored for select2
-                    && !$target.parent().hasClass('select2-results__option') //
+                    && !$target.is('[class=*"select2-results__option"]') // item selection should be ignored for select2
+                    && !$target.parent().is('[class=*"select2-results__option"]') //
                     && !$target.hasClass('select2-search__field') // search field in select2
                     && !$target.is(filters_link) // if the target of the click isn't "Advanced" link
                     && !$target.parent().is(filters_link) //
