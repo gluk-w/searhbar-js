@@ -1,0 +1,16 @@
+{
+  "name": "searchbar-with-filters",
+  "version": "0.1.0",
+  "description": "Search bar with filters",
+  "main": "searchbar.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gluk-w/searhbar-js.git"
+  },
+  "author": "Stan M <smisiurev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gluk-w/searhbar-js/issues"
+  },
+  "homepage": "https://github.com/gluk-w/searhbar-js#readme"
+}
